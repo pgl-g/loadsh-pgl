@@ -1,1 +1,1 @@
-console.log('测试');
+const { _forEach } = require('./loadsh_/_forEach');
