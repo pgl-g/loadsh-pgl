@@ -21,4 +21,4 @@ function _forEach(params, fn) {
 }
 module.exports = {
   _forEach
-} 
+}
