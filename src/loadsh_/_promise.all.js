@@ -1,25 +1,29 @@
 
-
-
 Promise.prototype.all = function(promises) {
-  let results = [];
-  let promiseCount = 0;
-  let promiseLength = promises.length;
 
+  // 返回一个promise对象
   return new Promise((resolve, reject) => {
-    for (const val of promises) {
-      Promise.resolve(val).then(function(res) {
-        promiseCount++;
-        results.push(res);
 
-        // 当所有的函数都执行正确的时候， resolve输出正确的结果
-        if (promiseCount === promiseLength) {
-          return resolve(results);
+    let index = 0; // 设置下标
+    let result = [];
+    const promisesLength = promises.length;
+
+    // 每个请求
+    promises.forEach((val, i) => {
+      // 这里主要是越界判断是否含有thenable, 将对象直接转换为primise
+      Promise.resolve(val).then(res => {
+        index++;
+        // 成功的每一项
+        result[i] = res;
+
+        // 三个都成功才返回
+        if (index === promisesLength) {
+          resolve(result);
         }
-      }, (e) => {
-        return reject(e);
+      }, (err) => {
+        // 有一个报错直接抛出
+       reject(err);
       })
-    }
+    })
   })
 }
-
