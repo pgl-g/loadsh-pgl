@@ -25,3 +25,41 @@ function throllte(fn, delay) {
     }
   }
 }
+
+
+function debounce(fn, delay) {
+  let time = null;
+  return function(e) {
+    clearTimeout(time);
+    let that = this, context = arguments;
+    time = setTimeout(() => {
+      fn.apply(that, context);
+    }, delay);
+  }
+}
+
+
+
+// 重构防抖/节流合并
+function mergeDebounceThrolle(fn, delay, type) {
+  let timeout;
+  let nowTime = new Date();
+  let nextTime = new Date() - 0;
+  return function(e) {
+    clearTimeout(timeout);
+    // 节流函数
+    let self = this, context = arguments;
+    if (type === 2 && nextTime - nowTime >= timeout) {
+      fn.apply(self, context);
+      nextTime = nowTime;      
+    } else {
+      timeout = setTimeout(() => {
+        fn.apply(self, context);
+      }, delay);
+    }
+  }
+}
+
+
+
+

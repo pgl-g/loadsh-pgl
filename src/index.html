@@ -18,7 +18,11 @@
   </style>
 </head>
 <body>
-  <div class="app">控制台观看～</div>
+  <div id="app" onclick="handleClick()">控制台观看ss～</div>
   <script type="module" src="./index.js"></script>
+
+  <script>
+  document.addEventListener('onclick', deBounce(handleClick, 1000))
+  </script>
 </body>
 </html>
