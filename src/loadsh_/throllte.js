@@ -26,7 +26,6 @@ function throllte(fn, delay) {
   }
 }
 
-
 function debounce(fn, delay) {
   let time = null;
   return function(e) {
