@@ -1,7 +1,10 @@
 
 
 
-// 浅拷贝
+/*
+  浅拷贝
+  1. 使用object.assign方法
+*/ 
 
 const obj = {a: 1, arr: [1, 2]};
 
