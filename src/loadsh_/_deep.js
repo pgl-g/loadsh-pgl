@@ -17,6 +17,10 @@ function deepCopy(src) {
 let shallowObj = deepCopy(obj);
 
 shallowObj.a = 2;
+console.log(shallowObj)
+
+
+
 
 
 

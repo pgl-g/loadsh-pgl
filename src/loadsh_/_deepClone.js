@@ -1,22 +1,21 @@
 
 
 // 深拷贝
-
-function deepCleen(deepObj1, deepObj2) {
-  const deepObj2 = deepObj2 || {};
-
-  for (const key in deepObj1) {
-    if (typeof deepObj1[key] === 'object') {
-      if (deepObj1[key].constructor === Array) {
-        // 数组
-        deepObj2[key] = [];
+function deepClone(deepObj) {
+  let result = typeof deepObj.splice === "function" ? [] : {};
+  if (deepObj && typeof deepObj === 'object') {
+    for (const key in deepObj) {
+      if (Object.prototype.toString.call(deepObj) === '[object Object]') {
+        result[key] = deepClone(deepObj[key]);
       } else {
-        deepObj2[key] = {};
+        result[key] = deepObj[key];
       }
-      deepCleen(deepObj1[key])
-    } else {
-      deepObj1[key] = deepObj2[key];
     }
+    return result;
   }
-  return deepObj2;
+  return deepObj;
 }
+const result = deepClone(obj);
+result.a = 2;
+console.log(deepClone(obj));
+
