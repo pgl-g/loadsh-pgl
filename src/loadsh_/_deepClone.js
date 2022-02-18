@@ -20,7 +20,3 @@ function deepClone(deepObj) {
   }
   return deepObj;
 }
-const result = deepClone(obj);
-result.a = 2;
-console.log(deepClone(obj));
-
