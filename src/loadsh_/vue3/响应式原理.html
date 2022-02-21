@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+
+  <script>
+    let category = {
+      title: '烤串',
+      isShow: true
+    }
+
+
+    //proxy把目标对象转化成代理对象
+    //参数1：目标对象
+    //参数2：处理器对象，用来监听数据，及操作数据
+    let proxyCategory = new Proxy(category, {
+      //监听取值，第一个参数目标对象，第二个参数被获取的属性名
+      get(target, prop) {
+        console.log(target,prop);
+        // return target[prop];//不推荐
+        //使用Reflect为了优化Object的一些操作方法以及合理的返回Object操作返回的结果
+        return Reflect.get(target, prop);
+      },
+      //监听设置值
+      set(target, prop, val) {
+        console.log(target,prop,val);
+        // target[prop]=val;//不推荐
+        return Reflect.set(target, prop, val);
+      },
+      //监听删除delete
+      deleteProperty(target, prop) {
+        console.log(target, prop);
+        // delete target[prop];不推荐
+        return Reflect.deleteProperty(target, prop);
+      }
+    });
+    console.log(proxyCategory.title);
+    proxyCategory.title="饮料";
+    console.log(proxyCategory.title);
+    console.log(category.title);
+    delete proxyCategory.isShow;
+    console.log(category);
+  </script>
+</body>
+
+</html>
