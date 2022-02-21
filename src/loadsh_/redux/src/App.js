@@ -2,12 +2,16 @@
 
 import React from 'react';
 
-import Home from './page/home';
+// import Home from './page/home';
+import ComA from './page/ComA';
+import ComB from './page/ComB';
 
 function App() {
   return (
     <div className="App">
-      <Home />
+      {/* <Home /> */}
+      <ComA />
+      <ComB />
     </div>
   );
 }

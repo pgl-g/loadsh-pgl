@@ -3,7 +3,7 @@ import { createStore } from 'redux'; // 创建一个Redux store 来存放应用�
 // applyMiddleware
 // import thunk from 'redux-thunk'; // 使我们在action中返回函数，而不是只能返回一个对象，然后我们可以在函数中做很多事情，比如发送异步ajax
 // 导入我们自己创建好的reducer
-import { rootReducer } from '../reducer';
+import {rootReducers} from '../reducer';
 /**
  * createStore 接收三个参数，reducer （一个或多个），状态，applyMiddleware（中间件）
  * 【】reducer 作用收到action以后必须给出一个新的state，这样view才会发生变化，这种state的计算过程叫做reducer
@@ -27,5 +27,5 @@ import { rootReducer } from '../reducer';
 //  const initialState = {} // 初始化空对象，使用使会返回新状态
 //  const middleware = [thunk];
  
- export const store = createStore(rootReducer);
+ export const store = createStore(rootReducers);
 

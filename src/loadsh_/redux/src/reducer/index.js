@@ -5,19 +5,35 @@
  */
 
 // 创建初始化数据
-const initialValue = { value: '默认值' };
-// 会拿到action文件中的状态进行改变，并返回
-const rootReducer = (state = initialValue, actions) => {
-  // console.log(state, actions, Object.assign({}, state, actions));
-  switch (actions.type) {
-    case 'send_type':
-    return Object.assign({}, state, actions);
-    default:
-    return state;
-  }
+// const initialValue = { value: '默认值' };
+// // 会拿到action文件中的状态进行改变，并返回
+// const rootReducer = (state = initialValue, actions) => {
+//   // console.log(state, actions, Object.assign({}, state, actions));
+//   switch (actions.type) {
+//     case 'send_type':
+//     return Object.assign({}, state, actions);
+//     default:
+//     return state;
+//   }
+// }
+
+
+// module.exports = {
+//   rootReducer
+// }
+
+const initValue = {
+  count: 0
 }
 
-
-module.exports = {
-  rootReducer
+exports.rootReducers = (state = initValue, action) => {
+  switch (action.type) {
+    case 'add_action':
+      return {
+        count: state.count + 1
+      };
+    default:
+      return state;
+  }
+ 
 }
