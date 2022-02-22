@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 
 // import { connect } from 'react-redux';
 
@@ -7,6 +7,24 @@ import { store } from '../../store';
 
 // 导入action构建函数
 import { sendAction } from '../../action';
+
+
+// 测试useEffect / useLayoutEffect 区别
+const UseEffectDemo = () => {
+
+  const [count, setCount] = useState(0);
+
+  useLayoutEffect(() => {
+    if (count === 0) {
+      // const randomNum = 10 + Math.random()*200
+      setCount(10 + Math.random()*200);
+    }
+  }, [count])
+  
+  return (
+    <div onClick={() => setCount(0)}>{count}</div>
+  )
+}
 
 export default class Home extends React.Component {
 
@@ -31,6 +49,7 @@ export default class Home extends React.Component {
       <>
         <button onClick={this.handleClick}>点我点我</button>
         <div>{store.getState().value}</div>
+        <UseEffectDemo />
       </>
     )
   }
