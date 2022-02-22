@@ -1,6 +1,6 @@
 
 
-const path = require('path');
+// const path = require('path');
 const { merge } = require('webpack-merge'); // 引入webpack-merge 功能模块
 const common = require('./webpack.common.js'); // 引入webpack.common.js模块
 

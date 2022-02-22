@@ -7,7 +7,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
   entry: path.join(__dirname, './src/index.js'), // 入口文件
   output: {
     path: path.join(__dirname, '/dist'), // 打包后文件存放的位置
@@ -39,6 +38,12 @@ module.exports = {
   // loader实现不同格式文件的处理，转换为浏览器认识的文件格式
   module: {
     rules: [
+      // 一旦匹配到.js文件，babel-loader就会调用babel-core到api使用 babel-preset-ent进行转码
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
       {
         test: /\.css$/, // 正则匹配.css文件结尾
         use: ['style-loader', 'css-loader']
