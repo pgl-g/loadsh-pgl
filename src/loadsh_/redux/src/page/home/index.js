@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useLayoutEffect, useCallback } from 'react';
 
 // import { connect } from 'react-redux';
 
@@ -14,15 +14,25 @@ const UseEffectDemo = () => {
 
   const [count, setCount] = useState(0);
 
-  useLayoutEffect(() => {
-    if (count === 0) {
-      // const randomNum = 10 + Math.random()*200
-      setCount(10 + Math.random()*200);
-    }
-  }, [count])
+  // useLayoutEffect(() => {
+  //   if (count === 0) {
+  //     // const randomNum = 10 + Math.random()*200
+  //     setCount(10 + Math.random()*200);
+  //   }
+  // }, [count])
   
+  const run = useCallback(() => {
+    console.log(count);
+  }, [count])
+
+
   return (
-    <div onClick={() => setCount(0)}>{count}</div>
+    <div onClick={_ => {
+      run()
+      setCount(1)
+    }}>
+      <h1>{count}</h1>
+    </div>
   )
 }
 

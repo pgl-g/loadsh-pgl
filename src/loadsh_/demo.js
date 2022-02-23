@@ -104,6 +104,40 @@ function debounce(fn, delay) {
       fn.call(self, arguments);
     }, delay)
   }
-  
+}
+
+
+// 实现深拷贝
+let obj = {
+  a: 1, 
+  n: 2,
+  c: () => {
+    return 1
+  },
+  sd: []
+}
+
+deepClone(obj);
+
+
+function deepClone(target) {
+  let result = typeof target === 'function' ? [] : {};
+
+  if (typeof target === 'object') {
+
+    for (const key in target) {
+      // 判断是否是对象
+      if (Object.prototype.toString.call(target[key]) === '[object Object]') {
+          result[key] = deepClone(target[key])
+      } else {
+        result[key] = target[key];
+      }
+    }
+
+    return result;
+
+  }
+
+  return target
 
 }

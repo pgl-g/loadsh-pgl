@@ -23,3 +23,8 @@ function comPose() {
 }
 
 
+// 实现从右往左
+
+const commpone = (...fns) => {
+  fns.reduce((pre, cur) => (...args) => pre(cur(...args)))
+}
