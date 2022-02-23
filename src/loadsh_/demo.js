@@ -91,3 +91,19 @@ Promise.prototype.race = function(promises) {
     })
   })
 }
+
+
+// 防抖函数
+function debounce(fn, delay) {
+
+  let timeout = null;
+  return function(e) {
+    clearTimeout(timeout);
+    let self = this;
+    timeout = setTimeout(() => {
+      fn.call(self, arguments);
+    }, delay)
+  }
+  
+
+}
