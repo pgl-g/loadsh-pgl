@@ -1,7 +1,7 @@
 
 
 /**
- * call和apply第二个参数不一样，bind指向是一个函数
+ * call和apply第二个参数不一样，bind会创建一个函数
  */
 
 let obj = {

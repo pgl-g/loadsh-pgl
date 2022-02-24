@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+
+  <script>
+
+
+
+
+/**
+ * proxy拦截响应数据
+ * 
+ *  1. proxy中第一个参数目标对象，第二个为处理对象
+ */
+
+
+
+let obj = {
+  a: 1,
+  b: 2,
+}
+
+let proxyObj = new Proxy(obj, {
+  /**
+   * get是用来拦截对目标对象属性对访问请求
+   *  1. 参数1: 目标对象，参数2：所访问的属性
+   */
+  get: function(target, propkey, receiver) {
+    console.log(target, propkey, receiver);
+    return target[propkey];
+  },
+  /**
+   * 
+   */
+  set: function(target, propkey, value, receiver) {
+    console.log(target, propkey, value, receiver);
+  }
+})
+proxyObj.a
+  </script>
+  
+</body>
+</html>
