@@ -56,6 +56,16 @@ function debounce(fn, delay) {
   }
 }
 
+function debounce1(fn, delay) {
+  let timer = null;
+  return (...args) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(...args);
+    }, delay)
+  }
+}
+
 
 
 // 重构防抖/节流合并
