@@ -26,6 +26,25 @@ function throllte(fn, delay) {
   }
 }
 
+
+function throllte1(fn, delay) {
+  // 上一次的时间
+  let time = 0;
+
+  return function() {
+    let self = this;
+    let args = arguments;
+    // 本次时间
+    let now = new Date();
+    // 在规定的时间内执行一次
+    if (now - time > delay) {
+      fn.apply(self, args);
+      time = now;
+    }
+
+  }
+}
+
 function debounce(fn, delay) {
   let time = null;
   return function(e) {
