@@ -12,6 +12,13 @@ module.exports = {
     path: path.join(__dirname, '/dist'), // 打包后文件存放的位置
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['.js', '.json'],
+    alias: {
+      '@': path.resolve(__dirname, '../src')
+    },
+    mainFields: ['main'],
+  },
   // devServer: {
   //   // contentBase: 该配置项指定了服务器资源的根目录，如果不配置contentBase的话，那么contentBase默认是当前执行的目录,一般是项目的根目录
   //   port: 9000,
@@ -41,7 +48,7 @@ module.exports = {
       // 一旦匹配到.js文件，babel-loader就会调用babel-core到api使用 babel-preset-ent进行转码
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /node_modules/,  // 优化1: exclude 不对node_modules进行打包 使用include/exclude会降低loader的使用频率提高打包速度
         loader: 'babel-loader',
       },
       {
