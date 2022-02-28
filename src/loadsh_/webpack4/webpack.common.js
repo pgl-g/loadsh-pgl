@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // 引入css分离文件
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
   entry: path.join(__dirname, './src/index.js'), // 入口文件
@@ -70,6 +71,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, './src/index.html'), // new 一个插件实例
     }),
+    // 要往HtmlWebpackPlugin生成的index.html里，加入我们生成的文件
+    new AddAssetHtmlWebpackPlugin({
+      filepath: path.resolve(__dirname, './dll/vendors.dll.js')
+    })
     // new CleanWebpackPlugin(), // 清理文件夹名称
     // new webpack.HotModuleReplacementPlugin() // 热更新插件
     // new ExtractTextPlugin('css/index.css') // 打包将css分离到dist文件夹下到css文件中的index.css
