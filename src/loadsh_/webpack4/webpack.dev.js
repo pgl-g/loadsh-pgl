@@ -10,7 +10,7 @@ module.exports = merge(common, {
     // contentBase: path.join(__dirname, 'dist'),
     static: ['dist'],
     // contentBase: 该配置项指定了服务器资源的根目录，如果不配置contentBase的话，那么contentBase默认是当前执行的目录,一般是项目的根目录
-    port: 9000,
+    port: 9001,
     host: 'localhost',
     headers: {
       // 该配置项可以在HTTP响应中注入一些HTTP响应头
