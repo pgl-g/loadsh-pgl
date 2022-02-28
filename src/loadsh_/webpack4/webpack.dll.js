@@ -9,6 +9,10 @@ module.exports = {
   },
   output: {
     filename: '[name].dll.js',
-    path: path.resolve(__dirname, 'dll')
+    path: path.resolve(__dirname, 'dll'),
+    library: '[name]'
   }
 }
+
+// library：打包生成一个vendors.dll.js文件，
+// 然后把文件的所有内容通过一个全局变量暴露出来，这个全局变量是占位符name代表vebdors
