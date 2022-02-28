@@ -2,13 +2,12 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // 引入css分离文件
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
-  entry: path.join(__dirname, './src/index.js'), // 入口文件
+  entry: path.join(__dirname, '../src/index.js'), // 入口文件
   output: {
     path: path.join(__dirname, '/dist'), // 打包后文件存放的位置
     filename: 'bundle.js'
@@ -69,13 +68,12 @@ module.exports = {
   // 插件plugin是用来拓展webpack功能的，它会在整个构建过程中生效，执行相关的任务
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, './src/index.html'), // new 一个插件实例
+      template: path.join(__dirname, '../src/index.html'), // new 一个插件实例
     }),
     // 要往HtmlWebpackPlugin生成的index.html里，加入我们生成的文件
     new AddAssetHtmlWebpackPlugin({
-      filepath: path.resolve(__dirname, './dll/vendors.dll.js')
-    })
-    // new CleanWebpackPlugin(), // 清理文件夹名称
+      filepath: path.resolve(__dirname, '../dll/vendors.dll.js')
+    }),
     // new webpack.HotModuleReplacementPlugin() // 热更新插件
     // new ExtractTextPlugin('css/index.css') // 打包将css分离到dist文件夹下到css文件中的index.css
   ],
