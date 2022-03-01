@@ -1,0 +1,5 @@
+
+{
+  "presets": ["@babel/preset-env"], // 预设，检查包文件是否安装到node_module中
+  "plugins": []
+}
