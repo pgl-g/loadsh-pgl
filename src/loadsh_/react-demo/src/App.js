@@ -1,11 +1,12 @@
 import './App.css';
 
-import Home from './pages/home';
+// import _UseEffect from './pages/_useEffect';
+import _UseCallback from './pages/_useCallback';
 
 function App() {
   return (
     <div className="App">
-      <Home />
+      <_UseCallback />
     </div>
   );
 }
