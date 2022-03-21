@@ -10,20 +10,39 @@
   
 
   <script>
-    let str = 'abc';
+//     let str = 'abc';
 
-function strLen(str, num) {
-  let index = 0;
-    while (str.toString().length < num) {
-      str = str + '0';
-      index++;
-    }
+// function strLen(str, num) {
+//   let index = 0;
+//     while (str.toString().length < num) {
+//       str = str + '0';
+//       index++;
+//     }
 
-    console.log(str);
+//     console.log(str);
     
+// }
+
+// const res = strLen(str, 8);
+
+let str = 'XSUWHQ';
+
+
+// 转数组
+function strLastLen(str) {
+  let arr = str.split('');
+    let resultLeg;
+    if (arr.indexOf(' ') > 0) {
+      let arrs = str.split(' ');
+      resultLeg = arrs[arrs.length - 1].length;
+    } else {
+      resultLeg = str.length;
+    }
+  return resultLeg
 }
 
-const res = strLen(str, 8);
+const res = strLastLen(str);
+console.log(res)
 
 // console.log(res);
   </script>
