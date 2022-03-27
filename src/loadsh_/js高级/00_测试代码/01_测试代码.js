@@ -14,7 +14,7 @@
 
 //   // this传进来的是foo函数/隐式调用
 //   var fn = this;
-//   thisArg = (thisArg !== undefined || thisArg !== null) ? Object(thisArg) : window;
+//   thisArg = (thisArg !== undefined && thisArg !== null) ? Object(thisArg) : window;
 //   thisArg.fn = fn;
 //   thisArg.fn();
 // }
