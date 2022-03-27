@@ -14,7 +14,7 @@
 
 //   // this传进来的是foo函数/隐式调用
 //   var fn = this;
-//   thisArg = thisArg ? Object(thisArg) : window;
+//   thisArg = (thisArg !== undefined || thisArg !== null) ? Object(thisArg) : window;
 //   thisArg.fn = fn;
 //   thisArg.fn();
 // }
@@ -47,7 +47,7 @@ Function.prototype.pgApply = function(thisArg, argArray) {
 
   thisArg.fn = fn;
 
-  argArray = argArray ? argArray : [];
+  argArray = argArray ?? [];
 
   const result = thisArg.fn(...argArray);
 
