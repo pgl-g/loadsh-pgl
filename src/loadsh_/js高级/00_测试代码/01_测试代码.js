@@ -41,28 +41,53 @@
 
 // 封装apply
 
-Function.prototype.pgApply = function(thisArg, argArray) {
+// Function.prototype.pgApply = function(thisArg, argArray) {
 
-  let fn = this;
+//   let fn = this;
 
-  thisArg.fn = fn;
+//   thisArg.fn = fn;
 
-  argArray = argArray ?? [];
+//   argArray = argArray ?? [];
 
-  const result = thisArg.fn(...argArray);
+//   const result = thisArg.fn(...argArray);
 
-  delete thisArg.fn;
+//   delete thisArg.fn;
 
-  return result
-}
+//   return result
+// }
 
 
-function foo() {
-  console.log(this, 'foo被调用了');
-}
+// function foo() {
+//   console.log(this, 'foo被调用了');
+// }
 
-function add(num1, num2) {
-  console.log(this, num1, num2);
-}
-add.pgApply({}, [12, 2]);
+// function add(num1, num2) {
+//   console.log(this, num1, num2);
+// }
+// add.pgApply({}, [12, 2]);
 // add.apply(this, [1, 2]);
+
+
+// 封装bind
+Function.prototype.pglBind = function(thisArg, ...argArray) {
+  let fn = this;
+  // 越界判断
+  thisArg = (thisArg !== undefined && thisArg !== null) ? Object(thisArg) : [];
+  thisArg.fn = fn;
+  function proxyFn(...args) {
+    let allArgs = [...argArray, ...args];
+    const result = thisArg.fn(...allArgs);
+    delete thisArg.fn;
+    return result;
+  }
+  return proxyFn;
+
+}
+
+function foo(num1, num2) {
+  console.log(this, num1, num2)
+  return 30;
+}
+
+const res = foo.pglBind('', 22, 1);
+console.log(res());
