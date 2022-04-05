@@ -69,25 +69,76 @@
 
 
 // 封装bind
-Function.prototype.pglBind = function(thisArg, ...argArray) {
-  let fn = this;
-  // 越界判断
-  thisArg = (thisArg !== undefined && thisArg !== null) ? Object(thisArg) : [];
-  thisArg.fn = fn;
-  function proxyFn(...args) {
-    let allArgs = [...argArray, ...args];
-    const result = thisArg.fn(...allArgs);
-    delete thisArg.fn;
+// Function.prototype.pglBind = function(thisArg, ...argArray) {
+//   let fn = this;
+//   // 越界判断
+//   thisArg = (thisArg !== undefined && thisArg !== null) ? Object(thisArg) : [];
+//   thisArg.fn = fn;
+//   function proxyFn(...args) {
+//     let allArgs = [...argArray, ...args];
+//     const result = thisArg.fn(...allArgs);
+//     delete thisArg.fn;
+//     return result;
+//   }
+//   return proxyFn;
+
+// }
+
+// function foo(num1, num2) {
+//   console.log(this, num1, num2)
+//   return 30;
+// }
+
+// const res = foo.pglBind('', 22, 1);
+// console.log(res());
+
+
+function double(m) {
+  console.log(m)
+  return m * 2
+}
+
+function square(n) {
+  console.log(n)
+  return n ** 2
+}
+
+function hyCompose(...fns) {
+  let length = fns.length;
+
+  // for (let i = 0; i < length; i++) {
+  //   if (typeof fns[i] !== 'function') throw new TypeError('Expected arguments are functions');
+  // }
+
+
+  // return function(...args) {
+  //   let index = 0;
+  //   let result = length ? fns[index].apply(this, args) : args;
+  //   while(++index < length) {
+  //     result = fns[index].call(this, result);
+  //   }
+  //   return result;
+  // }
+
+  return function(...args) {
+    let result;
+    let index = 0;
+    while(++index < length) {
+      result = fns[index].apply(this, args);
+    }
     return result;
   }
-  return proxyFn;
 
 }
 
-function foo(num1, num2) {
-  console.log(this, num1, num2)
-  return 30;
-}
 
-const res = foo.pglBind('', 22, 1);
-console.log(res());
+var newFn = hyCompose(double, square)
+console.log(newFn(10))
+
+console.log(typeof typeof typeof null)
+
+function f(x) {
+  var x;
+  console.log(x);
+}
+f(5)
