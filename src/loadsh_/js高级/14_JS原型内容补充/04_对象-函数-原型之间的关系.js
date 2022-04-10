@@ -29,4 +29,3 @@ var foo1 = new Foo()
 var obj1 = new Object()
 
 console.log(Object.getOwnPropertyDescriptors(Function.__proto__))
-
