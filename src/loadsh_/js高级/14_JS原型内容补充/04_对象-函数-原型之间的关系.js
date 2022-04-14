@@ -31,19 +31,60 @@
 // console.log(Object.getOwnPropertyDescriptors(Function.__proto__))
 
 
-function Person() {
-  this.friends = [];
+// function Person() {
+//   this.friends = [];
+// }
+
+// function Student() {
+//   this.ns = 11;
+// }
+
+// Student.prototype = new Person;
+
+// var str1 = new Student();
+// var str2 = new Student();
+
+// str1.friends.push('1');
+
+// console.log(str2.friends);
+class Polygon {
+  constructor(height, width) {
+    console.log(height, width);
+    this.name = 'Polygon';
+    this.height = height;
+    this.width = width;
+  }
+  sayName() {
+    console.log('Hi, I am a ', this.name + '.');
+  }
 }
 
-function Student() {
-  this.ns = 11;
+class Square extends Polygon {
+  constructor(width, height) {
+    // this.height; 
+    // ReferenceError，super 需要先被调用！
+    
+/*
+   这里，它调用父类的构造函数的 length, 
+   作为Polygon 的 width和 height.
+*/ 
+    super(width, height);
+    // console.log(length, length);
+    
+/*  
+    注意: 在派生的类中, 在你可以使用'this'之前, 必须先调用super()。
+    忽略这, 这将导致引用错误。
+*/
+    this.name = 'Square';
+  }
+
+  get area() {
+    return this.height * this.width;
+  }
+
+  set area(value) {
+    this.area = value;
+  } 
 }
 
-Student.prototype = new Person;
-
-var str1 = new Student();
-var str2 = new Student();
-
-str1.friends.push('1');
-
-console.log(str2.friends);
+let str = new Square(183, 140);
