@@ -7,14 +7,20 @@
 // const xx = Object.defineProperty({}, obj.key, obj);
 // console.log(xx);
 
-let arr = [
-  {
-    label: '终南山',
-  },
-  {
-    label: '张三'
-  }
-]
-const [items, ...res] = arr;
+// let arr = [
+//   {
+//     label: '终南山',
+//   },
+//   {
+//     label: '张三'
+//   }
+// ]
+// const [items, ...res] = arr;
 
-console.log(items);
+// console.log(items);
+
+
+const msg = '哈哈';
+
+var str = '///'
+console.log(window.msg)
