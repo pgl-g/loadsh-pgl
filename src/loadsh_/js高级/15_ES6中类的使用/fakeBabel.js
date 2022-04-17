@@ -25,7 +25,7 @@
 // var str = '///'
 // console.log(window.msg)
 
-const btns = document.getElementsByTagName('button');
+// const btns = document.getElementsByTagName('button');
 
 
 // for (var i = 0; i < btns.length; i++) {
@@ -43,8 +43,31 @@ const btns = document.getElementsByTagName('button');
 // }
 
 
-for (let i = 0; i < btns.length; i++) {
-  btns[i].onclick = function() {
-    console.log(i + '我点击率' + 'let会产生块级作用域使其内部依次调用，window不能访问内部块级数据')
-  }
-}
+// for (let i = 0; i < btns.length; i++) {
+//   btns[i].onclick = function() {
+//     console.log(i + '我点击率' + 'let会产生块级作用域使其内部依次调用，window不能访问内部块级数据')
+//   }
+// }
+
+// let objSet = new WeakSet();
+
+// let obj = {
+//   name: '张绍刚'
+// }
+
+// objSet.add(obj);
+
+// obj = null
+
+// console.log(objSet)
+
+let wset = new Set();
+let key = {
+    name:"爱钱的大傻憨",
+    age:18
+};
+
+//wset.add("1");//报错
+wset.add(key);
+key = null
+console.log("wset:",wset);
