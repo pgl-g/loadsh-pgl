@@ -61,13 +61,54 @@
 
 // console.log(objSet)
 
-let wset = new Set();
-let key = {
-    name:"爱钱的大傻憨",
-    age:18
-};
+// let wset = new Set();
+// let key = {
+//     name:"爱钱的大傻憨",
+//     age:18
+// };
 
-//wset.add("1");//报错
-wset.add(key);
-key = null
-console.log("wset:",wset);
+// //wset.add("1");//报错
+// wset.add(key);
+// key = null
+// console.log("wset:",wset);
+
+
+const obj = {
+  name: '张三',
+  age: 12
+}
+
+
+function objFnName() {
+  console.log('name：执行了');
+}
+
+function objFnAge() {
+  console.log('age：执行了');
+}
+
+
+// 1. 创建weekmap
+const weekMaps = new WeakMap();
+ 
+// 2. 收集依赖
+// 2.1 对obj收集数据结构
+const objMap = new Map();
+
+objMap.set('name', [objFnName]);
+objMap.set('age', [objFnAge]);
+
+
+obj.name = '李四';
+
+weekMaps.set(obj, objMap);
+console.log(weekMaps);
+
+const targetObj = weekMaps.get(obj);
+console.log(targetObj);
+const fns = targetObj.get('name');
+fns.forEach(fn => fn());
+
+
+
+ 
