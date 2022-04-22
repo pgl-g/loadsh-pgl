@@ -28,27 +28,59 @@
 
 // Proxy-reflect
 
+// let obj = {
+//   name: "张三",
+//   age: 18
+// }
+
+// const newProxy = new Proxy(obj, {
+
+//   get(target, key, receiver) {
+//     console.log(target, key, receiver, '截取事件');
+//     return target[key]
+//   },
+//   set(target, key, newKey) {
+//     console.log('设置事件');
+//     target[key] = newKey;
+//   }
+
+// })
+
+
+// newProxy.name = '私聊'
+
+// console.log(obj);
+
+
+// function foo() {
+
+// }
+
+// const newProxy = new Proxy(foo, {
+//   apply (target, thisArg, argument) {
+//     console.log(target, thisArg, argument)
+//   }
+// })
+
+
+
 let obj = {
-  name: "张三",
+  name: 'pgl',
   age: 18
 }
 
+
 const newProxy = new Proxy(obj, {
-
   get(target, key, receiver) {
-    console.log(target, key, receiver, '截取事件');
-    return target[key]
+    console.log(Reflect.get(target, key), '------')
+    return Reflect.get(target, key);
   },
-  set(target, key, newKey) {
-    console.log('设置事件');
-    target[key] = newKey;
+  set(target, key, newVal, receiver) {
+    // target[key] = newVal
+    Reflect.set(target, key, newVal, receiver);
   }
-
 })
+ 
+newProxy.name = 'xx'
 
-
-
-newProxy.name = '私聊'
-
-
-
+console.log(obj, newProxy)
