@@ -121,21 +121,93 @@
 // console.log(objProxy.name)
 
 
-function Student(name, age) {
+// function Student(name, age) {
 
-  this.name = name;
-  this.age = age;
+//   this.name = name;
+//   this.age = age;
   
+// }
+
+
+// function Teacher() {
+//   console.log(this, '0---')
+// }
+
+// const obj = Reflect.construct(Student, ['张三', 12], Teacher);
+
+
+class Depend {
+  constructor() {
+    this.deps = [];
+  }
+  // 插入需要
+  addDepend(fn) {
+    this.deps.push(fn)
+  }
+
+  // 通知依赖更新
+  notify() {
+    this.deps.forEach(fn => fn());
+  }
 }
 
 
-function Teacher() {
-  console.log(this, '0---')
+let obj = {
+  name: 'pgl',
+  age: 18
 }
 
-const obj = Reflect.construct(Student, ['张三', 12], Teacher);
+
+let depend = new Depend();
+
+// 监听数据等更新
+function watcherFn(fn) {
+  depend.addDepend(fn);
+}
+
+let targetMap = new WeakMap();
+function getDepend(target, key) {
+
+  let map = targetMap.get(target); 
+  if (!map) {
+    map = new Map();
+    targetMap.set(target, map);
+  }
+
+  let depend = map.get(key);
+  if (!mapVal) {
+    depend = new Depend();
+    map.set(key, depend);
+  }
+
+  return depend;
+
+}
 
 
-console.log(obj)
+let objProxy = new Proxy(obj, {
+  get: function(target, key, receiver) {
+    return Reflect.get(target, key, receiver);
+  },
+  set: function(target, key, newKey, receiver) {
+    Reflect.set(target, key, newKey, receiver);
+    // 通知depend更新
+    const depend = getDepend(target, key);
+    depend.notify();
+  }
+});
 
 
+watcherFn(function() {
+  console.log(objProxy.name, '--------------');
+})
+objProxy.name = 'x';
+
+
+// 强引用/弱引用区别，为了删除引用操作
+let targteweak = new WeakMap();
+let objMap = new Map();
+
+objMap.set('name', 'nameDepend');
+
+targteweak.set(obj, objMap);
