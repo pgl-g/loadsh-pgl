@@ -79,7 +79,6 @@ PglPromise.prototype.pglThen = function(fulfilledFn, rejectsFn) {
       },0)
     }
 
-
     // 等待
     if (this.statusType === PADDING) {
       // 将成功的状态先存
@@ -111,4 +110,8 @@ PglPromise.prototype.pglThen = function(fulfilledFn, rejectsFn) {
   })
 
   return MyPromise;
+}
+
+PglPromise.prototype.pglCatch = function(rejectsFn) {
+  return this.pglThen(null, rejectsFn);
 }
