@@ -145,7 +145,6 @@ class PglPromise {
     }
 
     const reject = (reason) => {
-      // console.log(reason)
       queueMicrotask(() => {
         if (this.status === PADDING) {
           this.status = REJECTED;
@@ -164,21 +163,22 @@ class PglPromise {
 
 
   then = function(onFulfilled, onRejected) {
-    
     // 越界判断
     const defaultOnRejected = err => { throw err };
     onRejected = onRejected || defaultOnRejected;
 
     return new PglPromise((resovle, reject) => {
-
       // 在等待的情况下
       if (this.status === PADDING) {
         // 将成功的回调放到数组里
         this.onFulfilledList.push(() => {
+          console.log(this.value)
           try {
             const val = onFulfilled(this.value);
+            console.log(val)
             resovle(val);
           } catch (error) {
+            console.log(error)
             reject(error);
           }
         })
@@ -196,33 +196,24 @@ class PglPromise {
 
       // 在成功的情况下
       if (this.status === FULFILLED && onFulfilled) {
-        // 将成功的回调放到数组里
-        this.onFulfilledList.push(() => {
           try {
             const val = onFulfilled(this.value);
             resovle(val);
           } catch (error) {
             reject(error);
           }
-        })
       }
 
       // 在失败的情况
       if (this.status === REJECTED && onRejected) {
-        // 将成功的回调放到数组里
-        this.onRejectedList.push(() => {
           try {
-            const val = onFulfilled(this.value);
-            resovle(val);
-            console.log(val)
+            const reason = onRejected(this.reason);
+            resovle(reason);
           } catch (error) {
             reject(error);
           }
-        })
       }
-
     })
-
   }
 
   catch(onRejected) {
@@ -233,13 +224,21 @@ class PglPromise {
 
 
 const promise = new PglPromise((resolve, reject) => {
-  // resolve(1);
-  reject(2);
-}).then(res => {
-  console.log('res', res);
-}).catch(err => {
-  console.log('catch', err)
-});
+  resolve(1);
+  // reject(2);
+})
 
 
+promise.then(res1 => {
+  console.log('res1', res1)
+  // return res;
+  throw new Error('抛出异常')
+}).then(res2 => {
+  console.log('res2:', res2);
+}, err2 => {
+  console.log('err2', err2)
+})
 
+// promise.then(res => {
+//   console.log('res2', res)
+// })
