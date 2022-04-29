@@ -268,6 +268,35 @@ class PglPromise {
       })
     }) 
   }
+
+  static race(promises) {
+    // 打印执行越快的
+    return new PglPromise((resolve, reject) => {
+      promises.forEach(item => {
+        item.then(res => {
+          resolve(res);
+        }).catch(err => {
+          reject(err);
+        })
+      })
+    })
+  }
+
+  static any(promises) {
+    // resolve必须等到有一个成功的结果
+    // reject所有的都失败才执行reject
+    const result = [];
+    return new PglPromise((resovle, reject) => {
+      promises.forEach(item => {
+        item.then(resovle);
+      }, err => {
+        result.push(err);
+        if (result.length === promises.length) {
+          reject(new AggregateError(err));
+        }
+      })
+    })
+  }
 }
 
 
