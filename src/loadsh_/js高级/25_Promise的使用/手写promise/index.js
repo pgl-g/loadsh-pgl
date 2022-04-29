@@ -115,117 +115,123 @@
 
 // new Promise()
 
-// const PADDING = "padding"; // 等待
-// const FULFILLED = "fullfilled"; // 成功
-// const REJECTED = "rejected"; // 失败
-// class PglPromise {
-//   constructor(executor) {
-//     this.status = PADDING;
-//     this.value = undefined;
-//     this.reason = undefined;
-//     this.onFulfilledList = [];
-//     this.onRejectedList = [];
+const PADDING = 'padding'; // 等待
+const FULFILLED = 'fullfilled'; // 成功
+const REJECTED = 'rejected'; // 失败
+class PglPromise {
+  constructor(executor) {
+    this.status = PADDING;
+    this.value = undefined;
+    this.reason = undefined;
+    this.onFulfilledList = [];
+    this.onRejectedList = [];
 
-//     const resolve = (val) => {
-//       queueMicrotask(() => {
-//         if (this.status === PADDING) {
-//           this.status = FULFILLED;
-//           this.value = val;
-//           this.onFulfilledList.forEach((fn) => fn(this.value));
-//         }
-//       });
-//     };
 
-//     const reject = (reason) => {
-//       // console.log(reason)
-//       queueMicrotask(() => {
-//         if (this.status === PADDING) {
-//           this.status = REJECTED;
-//           this.reason = reason;
-//           this.onRejectedList.forEach((fn) => fn(this.reason));
-//         }
-//       });
-//     };
+    const resolve = (val) => {
+      queueMicrotask(() => {
+        if (this.status === PADDING) {
+          this.status = FULFILLED;
+          this.value = val;
+          this.onFulfilledList.forEach(fn => fn(this.value));
+        }
+      })
+    }
 
-//     try {
-//       executor(resolve, reject);
-//     } catch (error) {
-//       reject(error);
-//     }
-//   }
+    const reject = (reason) => {
+      queueMicrotask(() => {
+        if (this.status === PADDING) {
+          this.status = REJECTED;
+          this.reason = reason;
+          this.onRejectedList.forEach(fn => fn(this.reason));
+        }
+      })
+    }
 
-//   then = function (onFulfilled, onRejected) {
-//     // 越界判断
-//     const defaultOnRejected = (err) => {
-//       throw err;
-//     };
-//     onRejected = onRejected || defaultOnRejected;
+    try {
+      executor(resolve, reject);
+    } catch (error) {
+      reject(error);      
+    }
+  }
 
-//     return new PglPromise((resovle, reject) => {
-//       // 在等待的情况下
-//       if (this.status === PADDING) {
-//         // 将成功的回调放到数组里
-//         this.onFulfilledList.push(() => {
-//           try {
-//             const val = onFulfilled(this.value);
-//             resovle(val);
-//           } catch (error) {
-//             reject(error);
-//           }
-//         });
 
-//         // 将失败的回调放到数组里
-//         this.onRejectedList.push(() => {
-//           try {
-//             const reason = onRejected(this.reason);
-//             resovle(reason);
-//           } catch (error) {
-//             reject(error);
-//           }
-//         });
-//       }
+  then = function(onFulfilled, onRejected) {
+    // 越界判断
+    const defaultOnRejected = err => { throw err };
+    onRejected = onRejected || defaultOnRejected;
 
-//       // 在成功的情况下
-//       if (this.status === FULFILLED && onFulfilled) {
-//         // 将成功的回调放到数组里
-//         this.onFulfilledList.push(() => {
-//           try {
-//             const val = onFulfilled(this.value);
-//             resovle(val);
-//           } catch (error) {
-//             reject(error);
-//           }
-//         });
-//       }
+    return new PglPromise((resovle, reject) => {
+      // 在等待的情况下
+      if (this.status === PADDING) {
+        // 将成功的回调放到数组里
+        this.onFulfilledList.push(() => {
+          console.log(this.value)
+          try {
+            const val = onFulfilled(this.value);
+            console.log(val)
+            resovle(val);
+          } catch (error) {
+            console.log(error)
+            reject(error);
+          }
+        })
 
-//       // 在失败的情况
-//       if (this.status === REJECTED && onRejected) {
-//         // 将成功的回调放到数组里
-//         this.onRejectedList.push(() => {
-//           try {
-//             const val = onFulfilled(this.value);
-//             resovle(val);
-//             console.log(val);
-//           } catch (error) {
-//             reject(error);
-//           }
-//         });
-//       }
-//     });
-//   };
+        // 将失败的回调放到数组里
+        this.onRejectedList.push(() => {
+          try {
+            const reason = onRejected(this.reason);
+            resovle(reason);
+          } catch (error) {
+            reject(error);
+          }
+        })
+      }
 
-//   catch(onRejected) {
-//     this.then(undefined, onRejected);
-//   }
-// }
+      // 在成功的情况下
+      if (this.status === FULFILLED && onFulfilled) {
+          try {
+            const val = onFulfilled(this.value);
+            resovle(val);
+          } catch (error) {
+            reject(error);
+          }
+      }
 
-// const promise = new PglPromise((resolve, reject) => {
-//   // resolve(1);
-//   reject(2);
+      // 在失败的情况
+      if (this.status === REJECTED && onRejected) {
+          try {
+            const reason = onRejected(this.reason);
+            resovle(reason);
+          } catch (error) {
+            reject(error);
+          }
+      }
+    })
+  }
+
+  catch(onRejected) {
+    this.then(undefined, onRejected);
+  }
+}
+
+
+
+const promise = new PglPromise((resolve, reject) => {
+  resolve(1);
+  // reject(2);
+})
+
+
+promise.then(res1 => {
+  console.log('res1', res1)
+  // return res;
+  throw new Error('抛出异常')
+}).then(res2 => {
+  console.log('res2:', res2);
+}, err2 => {
+  console.log('err2', err2)
+})
+
+// promise.then(res => {
+//   console.log('res2', res)
 // })
-//   .then((res) => {
-//     console.log("res", res);
-//   })
-//   .catch((err) => {
-//     console.log("catch", err);
-//   });
