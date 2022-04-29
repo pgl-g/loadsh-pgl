@@ -155,20 +155,21 @@ class PglPromise {
   }
 
 
-  then = function(onFulfilled, onRejected) {
+  then(onFulfilled, onRejected) {
     // 越界判断
     const defaultOnRejected = err => { throw err };
     onRejected = onRejected || defaultOnRejected;
+    
+    const defaultOnFulfilled = val => { return val };
+    onFulfilled = onFulfilled || defaultOnFulfilled;
 
     return new PglPromise((resovle, reject) => {
       // 在等待的情况下
       if (this.status === PADDING) {
         // 将成功的回调放到数组里
         this.onFulfilledList.push(() => {
-          console.log(this.value)
           try {
             const val = onFulfilled(this.value);
-            console.log(val)
             resovle(val);
           } catch (error) {
             console.log(error)
@@ -210,28 +211,86 @@ class PglPromise {
   }
 
   catch(onRejected) {
-    this.then(undefined, onRejected);
+    return this.then(undefined, onRejected);
+  }
+
+  finally(onFinally) {
+    this.then(() => {
+      onFinally();
+    }, () => {
+      onFinally();
+    })
+  }
+
+  static resovles(val) {
+    return new PglPromise((resolve) => resolve(val));
+  }
+
+  static rejects(reason) {
+    return new PglPromise((resolve, reject) => reject(reason));
+  }
+
+  static all(promises) {
+    return new PglPromise((resolve, reject) => {
+      PglPromise.resovles(promises).then(res => {
+        const result = [];
+        let index = 0;
+        res.forEach(item => {
+          index++;
+          item.then(it => {
+            result.push(it);
+            if (index === result.length) {
+              resolve(result);
+            }
+          })
+        })
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  }
+
+  static allSetted(promises) {
+    return new PglPromise((resovle, reject) => {
+      const result = [];
+      promises.forEach(item => {
+        item.then(res => {
+          result.push({ status: FULFILLED, value: res });
+          if (promises.length === result.length) {
+            resovle(result);
+          }
+        }).catch(err => {
+          result.push({ status: FULFILLED, value: err });
+          if (promises.length === result.length) {
+            reject(result);
+          }
+        })
+      })
+    }) 
   }
 }
 
 
-
-const promise = new PglPromise((resolve, reject) => {
-  resolve(1);
-  // reject(2);
+const p1 = new PglPromise((resovle, reject) => {
+  setTimeout(() => { resovle(1) }, 1000)
 })
 
-
-promise.then(res1 => {
-  console.log('res1', res1)
-  // return res;
-  throw new Error('抛出异常')
-}).then(res2 => {
-  console.log('res2:', res2);
-}, err2 => {
-  console.log('err2', err2)
+const p2 = new PglPromise((resovle, reject) => {
+  setTimeout(() => { resovle(2) }, 2000)
 })
 
-// promise.then(res => {
-//   console.log('res2', res)
+const p3 = new PglPromise((resovle, reject) => {
+  setTimeout(() => { resovle(3) }, 3000)
+})
+
+PglPromise.all([p1, p2, p3]).then(res => {
+  console.log(res);
+})
+
+// PglPromise.resovles('111').then(res => {
+//   console.log("res:", res);
+// })
+
+// PglPromise.rejects('222').catch(err => {
+//   console.log('catch: ', err)
 // })
