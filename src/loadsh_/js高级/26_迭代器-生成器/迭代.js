@@ -121,25 +121,38 @@ function* generator() {
 //   })
 // })
 
-function exetFoo(genFoo) {
+// function exetFoo(genFoo) {
 
-  const genx = genFoo();
+//   const genx = genFoo();
 
-  function exet(res) {
-    const result = genx.next(res);
-    if (result.done) {
-      return result.value;
-    }
+//   function exet(res) {
+//     const result = genx.next(res);
+//     if (result.done) {
+//       return result.value;
+//     }
 
-    result.value.then(res1 => {
-      exet(res1);
-    })
-  }
+//     result.value.then(res1 => {
+//       exet(res1);
+//     })
+//   }
 
-  exet();
+//   exet();
 
 
 
+// }
+
+// exetFoo(generator);
+
+
+async function foo() {
+  console.log('异步函数')
 }
 
-exetFoo(generator);
+
+function foo1() {
+  console.log('普通函数')
+
+}
+foo1();
+foo();
