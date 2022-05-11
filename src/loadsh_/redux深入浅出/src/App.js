@@ -9,7 +9,7 @@ import ComB from './page/ComB';
 function App() {
   return (
     <div className="App">
-      <Home />
+      {/* <Home /> */}
       {/* <ComA />
       <ComB /> */}
     </div>
