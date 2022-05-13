@@ -6,6 +6,8 @@ import store from './store/index.js';
 
 // import App from './App';
 
+import { storeContext } from './connect/context';
+
 store.subscribe(() => {
   console.log(store.getState());
 })
@@ -13,8 +15,8 @@ store.subscribe(() => {
 store.dispatch({ type: 'send_type', count: 0 });
 
 ReactDOM.render(
-  <Provider store={store}>
+  <storeContext.Provider value={store}>
     {/* <App /> */}
-  </Provider>,
+  </storeContext.Provider>,
   document.getElementById('root')
 );

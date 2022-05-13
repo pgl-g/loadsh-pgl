@@ -1,26 +1,27 @@
 
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 
-import store from '../store';
+// import store from '../store';
+import { storeContext } from './context';
 
 // 封装connect
 export function connect(mapStateToProps, mapDispathToProps) {
   return function hoc(Components) {
-    return class extends PureComponent {
-      constructor(props) {
-        super(props);
+    class EnhanceComponent extends PureComponent {
+      constructor(props, context) {
+        super(props, context);
         
 
         this.state = {
-          storeState: mapStateToProps(store.getState())
+          storeState: mapStateToProps(context.getState())
         }
       }
 
 
       componentDidMount() {
-        this.unsubscript = store.subscribe(() => {
+        this.unsubscript = this.context.subscribe(() => {
           this.setState({
-            storeState: mapStateToProps(store.getState())
+            storeState: mapStateToProps(this.context.getState())
           })
         })
       }
@@ -30,9 +31,12 @@ export function connect(mapStateToProps, mapDispathToProps) {
       }
 
       render() {
-        return <Components {...this.props} {...mapStateToProps(store.getState())} {...mapDispathToProps(store.dispatch)} />
+        return <Components {...this.props} {...mapStateToProps(this.context.getState())} {...mapDispathToProps(this.context.dispatch)} />
       }
     }
+
+
+    EnhanceComponent.contextType = storeContext;
   }
 }
 
