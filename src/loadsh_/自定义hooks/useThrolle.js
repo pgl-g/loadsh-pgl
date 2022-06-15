@@ -2,12 +2,9 @@
 // hook
 useThrottle = (fn, delay, dep = []) => {
   const { current } = React.useRef({ fn, timer: null });
-  React.useEffect(
-    function () {
-      current.fn = fn;
-    },
-    [fn]
-  );
+  React.useEffect(() => {
+    current.fn = fn;
+  },[fn]);
 
   return React.useCallback(function f(...arg) {
     // if (!current.timer) {
@@ -22,3 +19,4 @@ useThrottle = (fn, delay, dep = []) => {
     }, delay);
   }, dep);
 };
+

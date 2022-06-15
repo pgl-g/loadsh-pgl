@@ -35,3 +35,32 @@ function throllet1(fn, delay) {
     }, delay)
   }
 }
+
+
+
+function debounce(delay, fn) {
+
+  let timer;
+
+  return function() {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fn.apply(this, ...args);
+    }, delay);
+  }
+
+
+}
+
+
+function throllet() {
+
+
+}
+
+const now = new Date();
+console.log(now)
+
+// 1654617232  1654617292

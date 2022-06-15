@@ -4,6 +4,8 @@ function filte(arr) {
   let result = [];
   while(arr.length > 0) {
     let num = Math.floor(Math.random() * arr.length);
+
+    console.log(arr.splice(num, 1), num);
     result.push(arr.splice(num, 1)[0]);
   }
   return result
