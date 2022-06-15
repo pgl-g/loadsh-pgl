@@ -13,27 +13,27 @@ class _Promise {
     this.reason = undefined; // 失败的值
     this.onFnResolveList = [];
     this.onFnRejectList = [];
-
+    const _this = this;
 
     // 成功的回调
-    const resolve = (val) => {
+    function resolve(val) {
       // queueMicrotask(() => {
         
       // })
-      if (this.status === PADDING) {
-        this.value = val;
-        this.status = SUCCESS;
-        this.onFnResolveList.forEach(fn => fn(val));
+      if (_this.status === PADDING) {
+        _this.value = val;
+        _this.status = SUCCESS;
+        _this.onFnResolveList.forEach(fn => fn(val));
       } 
     }
 
-
     // 失败的回调
-    const reject = (val) => {
-      if (this.status === PADDING) {
-        this.reason = val;
-        this.status = REJECT;
-        this.onFnRejectList.forEach(fn => fn(val));
+    function reject(val) {
+      console.log(_this)
+      if (_this.status === PADDING) {
+        _this.reason = val;
+        _this.status = REJECT;
+        _this.onFnRejectList.forEach(fn => fn(val));
       }
     }
 
@@ -55,7 +55,6 @@ class _Promise {
         this.onFnResolveList.push(() => {
           try {
             const val = onFnResolve(this.value);
-            console.log(val)
             resolves(val);
           } catch (error) {
             reject(error);
