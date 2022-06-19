@@ -1,43 +1,68 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import Hooks from './自定义hooks';
-
-function App() {
-
-  const [count, setCount] = useState(0);
 
 
-  useEffect(() => {
-  }, [])
+import React from 'react';
 
-  const handleChange = () => {
-    // console.log(12)
-    setCount(count + 1);
-    setCount(count + 1);
-    setCount(count + 1);
+
+// 子组件
+class Child extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
   }
 
-  return (
-    <div className="App">
-      <button onClick={handleChange}>
-        点击
-      </button>
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // console.log(nextProps);
+  //   if (nextProps.name !== this.props.name) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-      <Hooks />
-      {/* <Children props={count} /> */}
-    </div>
-  );
+
+  render() {
+    console.log('我是子组件')
+    return (
+      <div>
+       我是子组件 {this.props.name}
+      </div>
+    )
+  }
 }
 
+class App extends React.Component {
 
-const Children = ({ props }) => {
-  console.log(props)
 
-  return (
-    <div>
-      xxx
-    </div>
-  )
+  state = {
+    count: 1
+  }
+
+
+
+  handleClick = () => {
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
+
+  callback = () => {
+    
+  }
+
+
+  render() {
+    console.log('我是父组件')
+    return (
+      <div>
+        {this.state.count}
+        <Child cb={this.callback} />
+        <button onClick={this.handleClick}>add</button>
+      </div>
+    )
+  }
+
 }
 
 export default App;
