@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+
+    <div>v-model原理</div>
+    <input id="userInfo" />
+
+    <p id="user">动态显示输入框结果: </p>
+  <script>
+    
+    const obj = {
+    };
+
+    Object.defineProperty(obj, 'userInfo', {
+      // 可进行配置 进行删除操作
+      configurable: true,
+      get() {
+        console.log('获取数据')
+      },
+      set(newVal) {
+        document.getElementById('user').innerHTML = newVal;
+      }
+    })
+
+
+    document.getElementById('userInfo').addEventListener('keyup', function (e) {
+      const val = e.target.value;
+      console.log(val);
+      obj.userInfo = val;
+    })
+  </script>
+</body>
+</html>
